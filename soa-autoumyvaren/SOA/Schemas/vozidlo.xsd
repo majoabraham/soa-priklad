@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="vozidlo" targetNamespace="vozidlo"
+            elementFormDefault="qualified">
+            
+  <xsd:element name="vytvorVozidloRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="vozidlo" type="vozidloType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="vytvorVozidloResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="stav" type="xsd:string" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:complexType name="vozidloType">
+    <xsd:sequence>
+      <xsd:element name="ecv" type="xsd:string"/>
+      <xsd:element name="znacka" type="xsd:string"/>
+      <xsd:element name="model" type="xsd:string"/>
+      <xsd:element name="telefon" type="xsd:string"/>
+      <xsd:element name="meno" type="xsd:string"/>
+      <xsd:element name="priezvisko" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
