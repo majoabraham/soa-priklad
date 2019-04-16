@@ -1,0 +1,25 @@
+<adapter-config name="VozidlaDbReference" adapter="db" wsdlLocation="../WSDLs/VozidlaDbReference.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="VozidlaConn" location="eis/DB/VozidlaConn"/>
+  <endpoint-interaction portType="VozidlaDbReference_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="VozidlaDbReference.Vozidla"/>
+      <property name="DmlType" value="insert"/>
+      <property name="OutputCompletedXml" value="true"/>
+      <property name="MappingsMetaDataURL" value="VozidlaDbReference-or-mappings.xml"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+      <property name="DetectOmissions" value="true"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+  <endpoint-interaction portType="VozidlaDbReference_ptt" operation="VozidlaDbReferenceSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="VozidlaDbReference.Vozidla"/>
+      <property name="QueryName" value="VozidlaDbReferenceSelect"/>
+      <property name="MappingsMetaDataURL" value="VozidlaDbReference-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

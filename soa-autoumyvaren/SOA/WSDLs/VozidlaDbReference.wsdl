@@ -1,0 +1,36 @@
+<wsdl:definitions
+     name="VozidlaDbReference"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/VozidlaDbReference"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/VozidlaDbReference"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/VozidlaDbReference"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="VozidlaDbReference_plt" >
+    <plt:role name="VozidlaDbReference_role" >
+      <plt:portType name="tns:VozidlaDbReference_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/VozidlaDbReference" schemaLocation="../Schemas/VozidlaDbReference_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="VozidlaDbReferenceSelect_inputParameters">
+        <wsdl:part name="VozidlaDbReferenceSelect_inputParameters" element="top:VozidlaDbReferenceSelect_pECVInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="VozidlaCollection_msg">
+        <wsdl:part name="VozidlaCollection" element="top:VozidlaCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="VozidlaDbReference_ptt">
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:VozidlaCollection_msg"/>
+            <wsdl:output message="tns:VozidlaCollection_msg"/>
+        </wsdl:operation>
+        <wsdl:operation name="VozidlaDbReferenceSelect">
+            <wsdl:input message="tns:VozidlaDbReferenceSelect_inputParameters"/>
+            <wsdl:output message="tns:VozidlaCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

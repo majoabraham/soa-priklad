@@ -1,0 +1,111 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Apr 16 11:47:37 CEST 2019
+  Author:  mario
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="VytvorVozidloBPELProcess"
+               targetNamespace="http://xmlns.oracle.com/soa_priklad/soa_autoumyvaren/VytvorVozidloBPELProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/soa_priklad/soa_autoumyvaren/VytvorVozidloBPELProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VytvorVozidloService"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/MarioDbReference"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/VozidlaDbReference"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/top/VozidlaDbReference"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="vozidlo">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VytvorVozidloService"
+          location="../WSDLs/VytvorVozidloServiceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="VytvorVozidloBPELProcess" partnerLinkType="ns1:VytvorVozidloBPELProcess" myRole="VytvorVozidloPortType"/>
+    <partnerLink name="VozidlaDbReference" partnerLinkType="ns3:VozidlaDbReference_plt"
+                 partnerRole="VozidlaDbReference_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:requestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="ns1:replyMessage"/>
+    <variable name="Invoke_VlozVozidlo_insert_InputVariable" messageType="ns3:VozidlaCollection_msg"/>
+    <variable name="Invoke_VlozVozidlo_insert_OutputVariable" messageType="ns3:VozidlaCollection_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in VytvorVozidloBPELProcess.wsdl) -->
+    <receive name="receiveInput" partnerLink="VytvorVozidloBPELProcess" portType="ns1:VytvorVozidloPortType" operation="vytvorVozidlo" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_VlozVozidlo">
+      <copy>
+        <from>$inputVariable.parameters/ns4:vozidlo/ns4:ecv</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VlozVozidlo_insert_InputVariable.VozidlaCollection/ns5:Vozidla/ns5:ecv</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.parameters/ns4:vozidlo/ns4:znacka</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VlozVozidlo_insert_InputVariable.VozidlaCollection/ns5:Vozidla/ns5:znacka</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.parameters/ns4:vozidlo/ns4:model</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VlozVozidlo_insert_InputVariable.VozidlaCollection/ns5:Vozidla/ns5:model</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.parameters/ns4:vozidlo/ns4:telefon</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VlozVozidlo_insert_InputVariable.VozidlaCollection/ns5:Vozidla/ns5:telefon</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.parameters/ns4:vozidlo/ns4:meno</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VlozVozidlo_insert_InputVariable.VozidlaCollection/ns5:Vozidla/ns5:meno</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.parameters/ns4:vozidlo/ns4:priezvisko</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VlozVozidlo_insert_InputVariable.VozidlaCollection/ns5:Vozidla/ns5:priezvisko</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_VlozVozidlo" partnerLink="VozidlaDbReference"
+            portType="ns3:VozidlaDbReference_ptt" operation="insert"
+            inputVariable="Invoke_VlozVozidlo_insert_InputVariable"
+            outputVariable="Invoke_VlozVozidlo_insert_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Assign_Output">
+      <copy>
+        <from>'Vozidlo bolo pridane do databazy'</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns4:stav</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="VytvorVozidloBPELProcess" portType="ns1:VytvorVozidloPortType" operation="vytvorVozidlo" variable="outputVariable"/>
+  </sequence>
+</process>

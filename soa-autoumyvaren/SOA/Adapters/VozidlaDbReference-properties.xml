@@ -1,0 +1,36 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+   <entry key="VOZIDLA.ECV:db_column_type">VARCHAR2</entry>
+   <entry key="VOZIDLA:db_column_3">MODEL</entry>
+   <entry key="VOZIDLA:db_column_2">ZNACKA</entry>
+   <entry key="VOZIDLA.PRIEZVISKO:db_column_not_null">false</entry>
+   <entry key="VOZIDLA:db_column_1">ECV</entry>
+   <entry key="VOZIDLA:db_column_0">VOZIDLO_ID</entry>
+   <entry key="VOZIDLA.ZNACKA:db_column_type">NVARCHAR2</entry>
+   <entry key="VOZIDLA.TELEFON:db_column_not_null">false</entry>
+   <entry key="VOZIDLA.MODEL:db_column_type">NVARCHAR2</entry>
+   <entry key="VOZIDLA.TELEFON:db_column_type">VARCHAR2</entry>
+   <entry key="VOZIDLA.PRIEZVISKO:db_column_type">NVARCHAR2</entry>
+   <entry key="VOZIDLA:db_table_type">TABLE</entry>
+   <entry key="VOZIDLA.MENO:db_column_size">20</entry>
+   <entry key="VOZIDLA.MODEL:db_column_not_null">false</entry>
+   <entry key="VOZIDLA.ECV:db_column_size">20</entry>
+   <entry key="VOZIDLA.VOZIDLO_ID:db_column_not_null">true</entry>
+   <entry key="VOZIDLA.MENO:db_column_not_null">false</entry>
+   <entry key="return_single_result_set">false</entry>
+   <entry key="VOZIDLA.ZNACKA:db_column_size">20</entry>
+   <entry key="VOZIDLA.ZNACKA:db_column_not_null">false</entry>
+   <entry key="VOZIDLA.ECV:db_column_not_null">false</entry>
+   <entry key="VOZIDLA.MODEL:db_column_size">20</entry>
+   <entry key="VOZIDLA.TELEFON:db_column_size">20</entry>
+   <entry key="VOZIDLA.VOZIDLO_ID:db_column_type">NUMBER</entry>
+   <entry key="root_descriptor_alias">VOZIDLA</entry>
+   <entry key="VOZIDLA.PRIEZVISKO:db_column_size">20</entry>
+   <entry key="VOZIDLA.VOZIDLO_ID:db_column_precision">6</entry>
+   <entry key="VOZIDLA:db_column_6">PRIEZVISKO</entry>
+   <entry key="VOZIDLA.VOZIDLO_ID:db_column_scale">0</entry>
+   <entry key="VOZIDLA.MENO:db_column_type">NVARCHAR2</entry>
+   <entry key="VOZIDLA:db_column_5">MENO</entry>
+   <entry key="VOZIDLA:db_column_4">TELEFON</entry>
+</properties>
