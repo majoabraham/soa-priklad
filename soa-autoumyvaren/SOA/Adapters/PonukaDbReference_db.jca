@@ -1,0 +1,14 @@
+<adapter-config name="PonukaDbReference" adapter="db" wsdlLocation="../WSDLs/PonukaDbReference.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="VozidlaConn" location="eis/DB/VozidlaConn"/>
+  <endpoint-interaction portType="PonukaDbReference_ptt" operation="PonukaDbReferenceSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="PonukaDbReference.Ponuka"/>
+      <property name="QueryName" value="PonukaDbReferenceSelect"/>
+      <property name="MappingsMetaDataURL" value="PonukaDbReference-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

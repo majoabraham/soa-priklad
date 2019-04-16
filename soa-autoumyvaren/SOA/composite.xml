@@ -17,6 +17,10 @@
           location="WSDLs/VozidlaDbReference.wsdl" importType="wsdl"/>
   <import namespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/service1"
           location="WSDLs/VyberVozidloServiceWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"
+          location="WSDLs/VyberPonukaServiceWrapper.wsdl" importType="wsdl"/>
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/PonukaDbReference"
+          location="WSDLs/PonukaDbReference.wsdl" importType="wsdl"/>
   <service name="VytvorVozidloBPELProcess_ep" ui:wsdlLocation="WSDLs/VytvorVozidloServiceWrapper.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VytvorVozidloService#wsdl.interface(VytvorVozidloPortType)"/>
     <binding.ws port="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VytvorVozidloService#wsdl.endpoint(VytvorVozidloBPELProcess_ep/VytvorVozidloPort)"/>
@@ -24,6 +28,10 @@
   <service name="VyberVozidloBPELProcess_ep" ui:wsdlLocation="WSDLs/VyberVozidloServiceWrapper.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/service1#wsdl.interface(VyberVozidloPortType)"/>
     <binding.ws port="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/service1#wsdl.endpoint(VyberVozidloBPELProcess_ep/VyberVozidloPort)"/>
+  </service>
+  <service name="VyberPonukaBPELProcess_ep" ui:wsdlLocation="WSDLs/VyberPonukaServiceWrapper.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService#wsdl.interface(VyberPonukaPortType)"/>
+    <binding.ws port="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService#wsdl.endpoint(VyberPonukaBPELProcess_ep/VyberPonukaPort)"/>
   </service>
   <property name="productVersion" type="xs:string" many="false">12.2.1.3.0.170820</property>
   <property name="compositeID" type="xs:string" many="false">12e65abe-3026-4a20-9604-a63476e6e28b</property>
@@ -50,9 +58,28 @@
     </componentType>
     <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
   </component>
+  <component name="VyberPonukaBPELProcess" version="2.0">
+    <implementation.bpel src="BPEL/VyberPonukaBPELProcess.bpel"/>
+    <componentType>
+      <service name="VyberPonukaBPELProcess" ui:wsdlLocation="WSDLs/VyberPonukaServiceWrapper.wsdl">
+        <interface.wsdl interface="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService#wsdl.interface(VyberPonukaPortType)"/>
+      </service>
+      <reference name="PonukaDbReference" ui:wsdlLocation="WSDLs/PonukaDbReference.wsdl">
+        <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/PonukaDbReference#wsdl.interface(PonukaDbReference_ptt)"/>
+      </reference>
+    </componentType>
+  </component>
   <reference name="VozidlaDbReference" ui:wsdlLocation="WSDLs/VozidlaDbReference.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/VozidlaDbReference#wsdl.interface(VozidlaDbReference_ptt)"/>
     <binding.jca config="Adapters/VozidlaDbReference_db.jca"/>
+    <property name="jca.retry.count" type="xs:int" many="false" override="may">4</property>
+    <property name="jca.retry.interval" type="xs:int" many="false" override="may">1</property>
+    <property name="jca.retry.backoff" type="xs:int" many="false" override="may">2</property>
+    <property name="jca.retry.maxInterval" type="xs:int" many="false" override="may">120</property>
+  </reference>
+  <reference name="PonukaDbReference" ui:wsdlLocation="WSDLs/PonukaDbReference.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/PonukaDbReference#wsdl.interface(PonukaDbReference_ptt)"/>
+    <binding.jca config="Adapters/PonukaDbReference_db.jca"/>
     <property name="jca.retry.count" type="xs:int" many="false" override="may">4</property>
     <property name="jca.retry.interval" type="xs:int" many="false" override="may">1</property>
     <property name="jca.retry.backoff" type="xs:int" many="false" override="may">2</property>
@@ -73,5 +100,13 @@
   <wire>
     <source.uri>VyberVozidloBPELProcess/VozidlaDbReference</source.uri>
     <target.uri>VozidlaDbReference</target.uri>
+  </wire>
+  <wire>
+    <source.uri>VyberPonukaBPELProcess_ep</source.uri>
+    <target.uri>VyberPonukaBPELProcess/VyberPonukaBPELProcess</target.uri>
+  </wire>
+  <wire>
+    <source.uri>VyberPonukaBPELProcess/PonukaDbReference</source.uri>
+    <target.uri>PonukaDbReference</target.uri>
   </wire>
 </composite>

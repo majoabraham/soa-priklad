@@ -1,0 +1,23 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/PonukaDbReference" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/PonukaDbReference" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="PonukaCollection" type="PonukaCollection"/>
+   <xs:complexType name="PonukaCollection">
+      <xs:sequence>
+         <xs:element name="Ponuka" type="Ponuka" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Ponuka">
+      <xs:sequence>
+         <xs:element name="ponukaId" type="xs:int"/>
+         <xs:element name="nazov" type="xs:string" minOccurs="0" nillable="true"/>
+         <xs:element name="cena" type="xs:decimal" minOccurs="0" nillable="true"/>
+         <xs:element name="cas" type="xs:int" minOccurs="0" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="PonukaDbReferenceSelect_pIDInputParameters" type="PonukaDbReferenceSelect_pID"/>
+   <xs:complexType name="PonukaDbReferenceSelect_pID">
+      <xs:sequence>
+         <xs:element name="pID" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

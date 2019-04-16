@@ -1,0 +1,16 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="VyberPonukaService"
+     targetNamespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:tns="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="VyberPonukaBPELProcess">
+        <plnk:role name="VyberPonukaPortType" portType="tns:VyberPonukaPortType"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"
+         location="VyberPonukaService.wsdl"/>
+</wsdl:definitions>

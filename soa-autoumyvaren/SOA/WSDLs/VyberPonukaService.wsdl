@@ -1,0 +1,40 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="VyberPonukaService"
+     targetNamespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"
+     xmlns:tns="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"
+     xmlns:inp1="ponuka"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="ponuka" schemaLocation="../Schemas/ponuka.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="requestMessage">
+        <wsdl:part name="parameters" element="inp1:vyberPonukaRequest"/>
+    </wsdl:message>
+    <wsdl:message name="replyMessage">
+        <wsdl:part name="parameters" element="inp1:vyberPonukaResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="VyberPonukaPortType">
+        <wsdl:operation name="vyberPonuka">
+            <wsdl:input message="tns:requestMessage"/>
+            <wsdl:output message="tns:replyMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="execute_bind" type="tns:VyberPonukaPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="vyberPonuka">
+            <soap:operation style="document" soapAction="vyberPonuka"/>
+            <wsdl:input>
+                <soap:body use="literal" namespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" namespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="PonukaDbReference"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/PonukaDbReference"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/PonukaDbReference"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/PonukaDbReference"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="PonukaDbReference_plt" >
+    <plt:role name="PonukaDbReference_role" >
+      <plt:portType name="tns:PonukaDbReference_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/PonukaDbReference" schemaLocation="../Schemas/PonukaDbReference_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="PonukaDbReferenceSelect_inputParameters">
+        <wsdl:part name="PonukaDbReferenceSelect_inputParameters" element="top:PonukaDbReferenceSelect_pIDInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="PonukaCollection_msg">
+        <wsdl:part name="PonukaCollection" element="top:PonukaCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="PonukaDbReference_ptt">
+        <wsdl:operation name="PonukaDbReferenceSelect">
+            <wsdl:input message="tns:PonukaDbReferenceSelect_inputParameters"/>
+            <wsdl:output message="tns:PonukaCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

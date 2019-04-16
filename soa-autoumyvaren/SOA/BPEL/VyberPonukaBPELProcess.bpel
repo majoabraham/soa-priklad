@@ -1,0 +1,103 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Apr 16 18:29:19 CEST 2019
+  Author:  mario
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="VyberPonukaBPELProcess"
+               targetNamespace="http://xmlns.oracle.com/soa_priklad/soa_autoumyvaren/VyberPonukaBPELProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/soa_priklad/soa_autoumyvaren/VyberPonukaBPELProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/PonukaDbReference"
+         xmlns:ns3="ponuka" xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/PonukaDbReference"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/VyberPonukaService"
+          location="../WSDLs/VyberPonukaServiceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="VyberPonukaBPELProcess" partnerLinkType="ns1:VyberPonukaBPELProcess" myRole="VyberPonukaPortType"/>
+    <partnerLink name="PonukaDbReference" partnerLinkType="ns2:PonukaDbReference_plt"
+                 partnerRole="PonukaDbReference_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:requestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="ns1:replyMessage"/>
+    <variable name="Invoke_VyberPonuka_PonukaDbReferenceSelect_InputVariable"
+              messageType="ns2:PonukaDbReferenceSelect_inputParameters"/>
+    <variable name="Invoke_VyberPonuka_PonukaDbReferenceSelect_OutputVariable" messageType="ns2:PonukaCollection_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in VyberPonukaBPELProcess.wsdl) -->
+    <receive name="receiveInput" partnerLink="VyberPonukaBPELProcess" portType="ns1:VyberPonukaPortType" operation="vyberPonuka" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_VyberPonuka">
+      <copy>
+        <from>$inputVariable.parameters/ns3:ponuka_id</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberPonuka_PonukaDbReferenceSelect_InputVariable.PonukaDbReferenceSelect_inputParameters/ns4:pID</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_VyberPonuka" bpelx:invokeAsDetail="no" partnerLink="PonukaDbReference"
+            portType="ns2:PonukaDbReference_ptt" operation="PonukaDbReferenceSelect"
+            inputVariable="Invoke_VyberPonuka_PonukaDbReferenceSelect_InputVariable"
+            outputVariable="Invoke_VyberPonuka_PonukaDbReferenceSelect_OutputVariable"/>
+    <assign name="Assign_Output">
+      <copy>
+        <from>$Invoke_VyberPonuka_PonukaDbReferenceSelect_OutputVariable.PonukaCollection/ns4:Ponuka/ns4:ponukaId</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:ponuka/ns3:ponuka_id</to>
+      </copy>
+      <copy>
+        <from>$Invoke_VyberPonuka_PonukaDbReferenceSelect_OutputVariable.PonukaCollection/ns4:Ponuka/ns4:nazov</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:ponuka/ns3:nazov</to>
+      </copy>
+      <copy>
+        <from>$Invoke_VyberPonuka_PonukaDbReferenceSelect_OutputVariable.PonukaCollection/ns4:Ponuka/ns4:cena</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:ponuka/ns3:cena</to>
+      </copy>
+      <copy>
+        <from>$Invoke_VyberPonuka_PonukaDbReferenceSelect_OutputVariable.PonukaCollection/ns4:Ponuka/ns4:cas</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:ponuka/ns3:cas</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="VyberPonukaBPELProcess" portType="ns1:VyberPonukaPortType" operation="vyberPonuka" variable="outputVariable"/>
+  </sequence>
+</process>
