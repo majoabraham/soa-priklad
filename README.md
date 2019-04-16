@@ -2,9 +2,9 @@
 SOA (Service-Oriented Architecture) - priklad
 
 priklad sluzieb pre umyvaren aut
-- vyber ponuky sluzieb
-- vyber vozidla
-- vytvorenie vozidla
+- vyber ponuky sluzieb: vyhladanie ponuky sluzieb podla id
+- vyber vozidla: vyhladanie udajov o vozidle podla ecv
+- vytvorenie vozidla: vlozenie udajov o vozidle do databazy
 
 Nastroje, ktore som pouzil pri vytvarani prikladu na lokalnom PC:
 - Oracle SOA Suite 12.2.1.3.0 QuickStart
