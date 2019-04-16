@@ -1,0 +1,112 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Apr 16 17:35:31 CEST 2019
+  Author:  mario
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="VyberVozidloBPELProcess"
+               targetNamespace="http://xmlns.oracle.com/soa_priklad/soa_autoumyvaren/VyberVozidloBPELProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/soa_priklad/soa_autoumyvaren/VyberVozidloBPELProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/service1"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/soa-priklad/soa-autoumyvaren/VozidlaDbReference"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/VozidlaDbReference" xmlns:ns3="vozidlo"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/service1"
+          location="../WSDLs/VyberVozidloServiceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="VyberVozidloBPELProcess" partnerLinkType="ns1:VyberVozidloBPELProcess" myRole="VyberVozidloPortType"/>
+    <partnerLink name="VozidlaDbReference" partnerLinkType="ns2:VozidlaDbReference_plt"
+                 partnerRole="VozidlaDbReference_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="ns1:requestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="ns1:replyMessage"/>
+    <variable name="Invoke_VyberVozidlo_VozidlaDbReferenceSelect_InputVariable"
+              messageType="ns2:VozidlaDbReferenceSelect_inputParameters"/>
+    <variable name="Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable"
+              messageType="ns2:VozidlaCollection_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in VyberVozidloBPELProcess.wsdl) -->
+    <receive name="receiveInput" partnerLink="VyberVozidloBPELProcess" portType="ns1:VyberVozidloPortType" operation="vyberVozidlo" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign_VyberVozidlo">
+      <copy>
+        <from>$inputVariable.parameters/ns3:ecv</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_InputVariable.VozidlaDbReferenceSelect_inputParameters/ns4:pECV</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_VyberVozidlo" partnerLink="VozidlaDbReference"
+            portType="ns2:VozidlaDbReference_ptt" operation="VozidlaDbReferenceSelect"
+            inputVariable="Invoke_VyberVozidlo_VozidlaDbReferenceSelect_InputVariable"
+            outputVariable="Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Assign_Output">
+      <copy>
+        <from>$outputVariable.parameters/ns3:vozidlo/ns3:ecv</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:ecv</to>
+      </copy>
+      <copy>
+        <from>$outputVariable.parameters/ns3:vozidlo/ns3:znacka</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:znacka</to>
+      </copy>
+      <copy>
+        <from>$outputVariable.parameters/ns3:vozidlo/ns3:model</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:model</to>
+      </copy>
+      <copy>
+        <from>$outputVariable.parameters/ns3:vozidlo/ns3:telefon</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:telefon</to>
+      </copy>
+      <copy>
+        <from>$outputVariable.parameters/ns3:vozidlo/ns3:meno</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:meno</to>
+      </copy>
+      <copy>
+        <from>$outputVariable.parameters/ns3:vozidlo/ns3:priezvisko</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:priezvisko</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="VyberVozidloBPELProcess" portType="ns1:VyberVozidloPortType" operation="vyberVozidlo" variable="outputVariable"/>
+  </sequence>
+</process>

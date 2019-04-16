@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="VyberVozidloService"
+     targetNamespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/service1"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:tns="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/service1"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="VyberVozidloBPELProcess">
+        <plnk:role name="VyberVozidloPortType" portType="tns:VyberVozidloPortType"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://xmlns.oracle.com/soa-priklad/soa-autoumyvaren/service1" location="VyberVozidloService.wsdl"/>
+</wsdl:definitions>
