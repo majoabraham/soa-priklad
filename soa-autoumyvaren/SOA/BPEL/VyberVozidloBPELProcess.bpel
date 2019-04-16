@@ -82,28 +82,28 @@
             outputVariable="Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable" bpelx:invokeAsDetail="no"/>
     <assign name="Assign_Output">
       <copy>
-        <from>$outputVariable.parameters/ns3:vozidlo/ns3:ecv</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:ecv</to>
+        <from>$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:ecv</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:vozidlo/ns3:ecv</to>
       </copy>
       <copy>
-        <from>$outputVariable.parameters/ns3:vozidlo/ns3:znacka</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:znacka</to>
+        <from>$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:znacka</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:vozidlo/ns3:znacka</to>
       </copy>
       <copy>
-        <from>$outputVariable.parameters/ns3:vozidlo/ns3:model</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:model</to>
+        <from>$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:model</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:vozidlo/ns3:model</to>
       </copy>
       <copy>
-        <from>$outputVariable.parameters/ns3:vozidlo/ns3:telefon</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:telefon</to>
+        <from>$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:telefon</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:vozidlo/ns3:telefon</to>
       </copy>
       <copy>
-        <from>$outputVariable.parameters/ns3:vozidlo/ns3:meno</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:meno</to>
+        <from>$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:meno</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:vozidlo/ns3:meno</to>
       </copy>
       <copy>
-        <from>$outputVariable.parameters/ns3:vozidlo/ns3:priezvisko</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:priezvisko</to>
+        <from>$Invoke_VyberVozidlo_VozidlaDbReferenceSelect_OutputVariable.VozidlaCollection/ns4:Vozidla/ns4:priezvisko</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.parameters/ns3:vozidlo/ns3:priezvisko</to>
       </copy>
     </assign>
     <!-- Generate reply to synchronous request -->
