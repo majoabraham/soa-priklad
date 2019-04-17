@@ -1,7 +1,7 @@
 # soa-priklad
 SOA (Service-Oriented Architecture) - priklad
 
-priklad sluzieb pre umyvaren aut
+Priklad sluzieb pre umyvaren aut:
 - vyber ponuky sluzieb: vyhladanie ponuky sluzieb podla id
 - vyber vozidla: vyhladanie udajov o vozidle podla ecv
 - vytvorenie vozidla: vlozenie udajov o vozidle do databazy
@@ -15,7 +15,7 @@ Nastroje, ktore som pouzil pri vytvarani prikladu na lokalnom PC:
 SOA aplikacia: soa-priklad<br>
 SOA projekt: soa-autoumyvaren
 
-V projekte pouzivam vyssie uvedenu databazu Oracle Database Express Edition
+V projekte pouzivam vyssie uvedenu databazu Oracle Database Express Edition:
 - vytvoril som noveho pouzivatela C##MARIO
 - hostname: localhost
 - port: 1521
@@ -24,17 +24,17 @@ V projekte pouzivam vyssie uvedenu databazu Oracle Database Express Edition
 - connection: C##MARIO@//localhost:1521/xe
 - skripty na vytvorenie tabuliek Vozidla a Ponuka su v adresari soa-priklad/db
 
-XML Schema
+XML Schema:
 - vozidlo.xsd
 - ponuka.xsd
 
-WSDL
+WSDLs:
 - rozhranie: synchronne
 - VytvorVozidloService.wsdl
 - VyberVozidloService.wsdl
 - VyberPonukaService.wsdl
 
-BPEL Process
+BPEL Process:
 - specifikacia: BPEL 2.0
 - typ: Web Service
 - exponovane ako SOAP sluzba
@@ -42,7 +42,7 @@ BPEL Process
 - VyberVozidloBPELProcess.bpel
 - VyberPonukaBPELProcess.bpel
 
-Database Adapter
+Database Adapter:
 - referencne mena: VozidlaDbReference, PonukaDbReference
 - pripojenie: VozidlaConn
 - meno: C##MARIO
@@ -50,7 +50,7 @@ Database Adapter
 - pripojovaci retazec: jdbc:oracle:thin:@localhost:1521:XE
 - JNDI Name: eis/DB/VozidlaConn
 
-Process Flow
+Process Flow:
 - Assign_VlozVozidlo
 - Invoke_VlozVozidlo
 - Assign_Output<br><br>
@@ -63,8 +63,24 @@ Process Flow
 - Invoke_VyberPonuka
 - Assign_Output
 
-Deployment<br>
+Deployment:<br>
 konkretne WSDL nasadene na Oracle WebLogic Server:<br> 
-http://localhost:7001/soa-infra/services/default/soa-autoumyvaren/VytvorVozidloBPELProcess_ep?WSDL
-http://localhost:7001/soa-infra/services/default/soa-autoumyvaren/VyberVozidloBPELProcess_ep?WSDL
-http://localhost:7001/soa-infra/services/default/soa-autoumyvaren/VyberPonukaBPELProcess_ep?WSDL
+- http://localhost:7001/soa-infra/services/default/soa-autoumyvaren/VytvorVozidloBPELProcess_ep?WSDL
+- http://localhost:7001/soa-infra/services/default/soa-autoumyvaren/VyberVozidloBPELProcess_ep?WSDL
+- http://localhost:7001/soa-infra/services/default/soa-autoumyvaren/VyberPonukaBPELProcess_ep?WSDL
+
+Web services:
+- service: VyberPonukaBPELProcess_ep
+- port: VyberPonukaPort
+- operation: vyberPonuka
+- endpoint URL: http://localhost:7001/soa-infra/services/default/soa-autoumyvaren/VyberPonukaBPELProcess_ep
+<br><br>
+- service: VyberVozidloBPELProcess_ep
+- port: VyberVozidloPort
+- operation: vyberVozidlo
+- endpoint URL: http://localhost:7001/soa-infra/services/default/soa-autoumyvaren/VyberVozidloBPELProcess_ep
+<br><br>
+- service: VytvorVozidloBPELProcess_ep
+- port: VytvorVozidloPort
+- operation: vytvorVozidlo
+- endpoint URL: http://localhost:7001/soa-infra/services/default/soa-autoumyvaren/VytvorVozidloBPELProcess_ep
