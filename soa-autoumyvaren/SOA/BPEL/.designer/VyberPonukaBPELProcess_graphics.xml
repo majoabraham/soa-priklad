@@ -7,7 +7,7 @@
       <partnerlink name="VyberPonukaBPELProcess" x="0" y="283" side="left"/>
       <partnerlink name="PonukaDbReference" x="734" y="284" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="0,0,869,367" show_swimlanes="true">
+   <graph_layout viewport="0,17,869,608" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
    </graph_layout>
